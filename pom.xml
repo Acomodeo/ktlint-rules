@@ -11,6 +11,17 @@
         <kotlin.version>1.2.51</kotlin.version>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>packages</id>
+            <url>https://pkgs.dev.azure.com/acomodeo-devops/Acomodeo/_packaging/packages/maven/v1</url>
+        </repository>
+        <snapshotRepository>
+            <id>packages</id>
+            <url>https://pkgs.dev.azure.com/acomodeo-devops/Acomodeo/_packaging/packages/maven/v1</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
