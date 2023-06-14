@@ -24,7 +24,7 @@ class NoEmptyLineAfterFunctionDefinitionRule : Rule(
     override fun beforeVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
-        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
     ) {
         if (node is CompositeElement) {
             val type = node.elementType
@@ -45,8 +45,9 @@ class NoEmptyLineAfterFunctionDefinitionRule : Rule(
                     ?: return handleExpressionFunction(node, autoCorrect, emit)
 
                 val isBlock = block.text.startsWith("{") && block.text.endsWith("}")
-                if (!isBlock)
+                if (!isBlock) {
                     return handleExpressionFunction(node, autoCorrect, emit)
+                }
 
                 val children = block.children().take(2).toList()
                 val possibleWhitespace = children.getOrNull(1) ?: return
@@ -69,13 +70,14 @@ class NoEmptyLineAfterFunctionDefinitionRule : Rule(
     private fun handleExpressionFunction(
         node: CompositeElement,
         autoCorrect: Boolean,
-        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
     ) {
         val children = node
             .children()
             .dropWhile {
-                if (it !is PsiElement)
+                if (it !is PsiElement) {
                     return@dropWhile true
+                }
 
                 val psiElement = it as PsiElement
 
@@ -86,14 +88,15 @@ class NoEmptyLineAfterFunctionDefinitionRule : Rule(
 
         val possibleWhitespace = children.getOrNull(1) ?: return
 
-        if (possibleWhitespace is PsiWhiteSpace)
+        if (possibleWhitespace is PsiWhiteSpace) {
             lintWhitespace(possibleWhitespace, autoCorrect, emit)
+        }
     }
 
     private fun lintWhitespace(
         whitespace: PsiWhiteSpace,
         autoCorrect: Boolean,
-        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
     ) {
         if (whitespace.text.count { it == '\n' } > 1) {
             val firstLineBreak = whitespace.text.indexOf("\n")

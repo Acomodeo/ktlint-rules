@@ -13,15 +13,15 @@ import org.jetbrains.kotlin.com.intellij.psi.tree.TokenSet
  */
 
 val ignoredFunctions = listOf(
-        "listOf",
-        "mapOf",
-        "mutableListOf",
-        "mutableMapOf",
-        "byteArrayOf",
-        "setOf",
-        "mutableSetOf",
-        "arrayOf",
-        "listOfNotNull"
+    "listOf",
+    "mapOf",
+    "mutableListOf",
+    "mutableMapOf",
+    "byteArrayOf",
+    "setOf",
+    "mutableSetOf",
+    "arrayOf",
+    "listOfNotNull"
 )
 
 const val USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE =
@@ -34,33 +34,35 @@ class UseNamedParametersRule : Rule(
     override fun afterVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
-        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
     ) {
         if (node is CompositeElement && node.elementType == CALL_EXPRESSION) {
             val callText = node
-                    .getChildren(TokenSet.create(KtNodeTypes.REFERENCE_EXPRESSION))
-                    .firstOrNull()
-                    ?.text
-            if (callText in ignoredFunctions)
+                .getChildren(TokenSet.create(KtNodeTypes.REFERENCE_EXPRESSION))
+                .firstOrNull()
+                ?.text
+            if (callText in ignoredFunctions) {
                 return
+            }
 
             val argumentList = node.getChildren(TokenSet.create(KtNodeTypes.VALUE_ARGUMENT_LIST))
             val arguments = argumentList
-                    .singleOrNull()
-                    ?.getChildren(TokenSet.create(KtNodeTypes.VALUE_ARGUMENT))
-                    ?: return
+                .singleOrNull()
+                ?.getChildren(TokenSet.create(KtNodeTypes.VALUE_ARGUMENT))
+                ?: return
 
             if (arguments.size > 4) {
                 val error = arguments.any {
                     it.getChildren(TokenSet.create(KtNodeTypes.VALUE_ARGUMENT_NAME)).isEmpty()
                 }
 
-                if (error)
+                if (error) {
                     emit(
-                            node.startOffset,
-                            USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + node.text,
-                            false
+                        node.startOffset,
+                        USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + node.text,
+                        false
                     )
+                }
             }
         }
     }

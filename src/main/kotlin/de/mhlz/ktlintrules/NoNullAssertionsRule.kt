@@ -20,13 +20,14 @@ class NoNullAssertionsRule : Rule(
     override fun beforeVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
-        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+        emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
     ) {
         if (node is LeafPsiElement) {
             val nodeValue = (node.elementType as? KtSingleValueToken)?.value
 
-            if (nodeValue == "!!")
+            if (nodeValue == "!!") {
                 emit(node.startOffset, NO_NULL_ASSERTION_ERROR_MESSAGE, false)
+            }
         }
     }
 }
