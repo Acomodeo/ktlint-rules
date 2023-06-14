@@ -14,6 +14,8 @@ import org.jetbrains.kotlin.psi.KtLambdaExpression
 import org.jetbrains.kotlin.psi.psiUtil.children
 import org.jetbrains.kotlin.psi.stubs.elements.KtFunctionElementType
 
+const val NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE = "No empty new line after function definitions"
+
 class NoEmptyLineAfterFunctionDefinitionRule : Rule(
     ruleId = RuleId("mhlz:no-empty-line-after-function-definition"),
     about = About(),
@@ -99,7 +101,7 @@ class NoEmptyLineAfterFunctionDefinitionRule : Rule(
 
             emit(
                 whitespace.textOffset + secondLineBreak,
-                "No empty new line after function definitions",
+                NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE,
                 true
             )
 

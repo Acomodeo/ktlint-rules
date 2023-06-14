@@ -1,7 +1,6 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.test.lint
-import kotlin.test.assertTrue
+import com.pinterest.ktlint.test.KtLintAssertThat
 import org.junit.Test
 
 /**
@@ -9,9 +8,11 @@ import org.junit.Test
  */
 class UseNamedParametersRuleTest {
 
+    private val wrappingRuleAssertThat = KtLintAssertThat.assertThatRule { UseNamedParametersRule() }
+
     @Test
     fun testNamedParametersRule() {
-        val errors = UseNamedParametersRule().lint("""
+        val code = """
 fun test(a1: String, a2: String, a3: String, a4: String, a5: String) {}
 
 fun otherTest() {
@@ -22,10 +23,12 @@ fun otherTest() {
 fun anotherTest() {
     test(a1 = "", a2 = "", a3 = "", a4 = "", a5 = "")
 }
-        """)
+        """
 
-        assertTrue("Should have error in line 5") {
-            errors.any { it.line == 5 && it.detail.contains("named") }
-        }
+        wrappingRuleAssertThat(code).hasLintViolationWithoutAutoCorrect(
+            5,
+            5,
+            USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + "test(\"\", \"\", \"\", \"\", \"\")"
+        )
     }
 }

@@ -6,6 +6,9 @@ import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.jetbrains.kotlin.lexer.KtSingleValueToken
 
+const val NO_NULL_ASSERTION_ERROR_MESSAGE =
+    "Do not use '!!' assertions as they produce unhelpful error messages. Try to use ?.let or ?. instead"
+
 /**
  * @author Mischa Holz
  */
@@ -23,8 +26,7 @@ class NoNullAssertionsRule : Rule(
             val nodeValue = (node.elementType as? KtSingleValueToken)?.value
 
             if (nodeValue == "!!")
-                emit(node.startOffset, "Do not use '!!' assertions as they produce unhelpful " +
-                        "error messages. Try to use ?.let or ?. instead", false)
+                emit(node.startOffset, NO_NULL_ASSERTION_ERROR_MESSAGE, false)
         }
     }
 }

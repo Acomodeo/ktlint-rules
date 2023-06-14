@@ -24,6 +24,9 @@ val ignoredFunctions = listOf(
         "listOfNotNull"
 )
 
+const val USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE =
+    "Should use named parameters for function calls with more than 4 arguments: "
+
 class UseNamedParametersRule : Rule(
     ruleId = RuleId("mhlz:use-named-parameters"),
     about = About(),
@@ -55,8 +58,7 @@ class UseNamedParametersRule : Rule(
                 if (error)
                     emit(
                             node.startOffset,
-                            "Should use named parameters for function calls with more than" +
-                                    "4 arguments: ${node.text}",
+                            USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + node.text,
                             false
                     )
             }

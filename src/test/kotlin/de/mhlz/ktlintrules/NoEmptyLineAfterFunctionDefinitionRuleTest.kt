@@ -1,12 +1,11 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.test.format
-import com.pinterest.ktlint.test.lint
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import com.pinterest.ktlint.test.KtLintAssertThat.Companion.assertThatRule
 import org.junit.Test
 
 class NoEmptyLineAfterFunctionDefinitionRuleTest {
+
+    private val wrappingRuleAssertThat = assertThatRule { NoEmptyLineAfterFunctionDefinitionRule() }
 
     @Test
     fun `should report empty lines after function definitions`() {
@@ -16,9 +15,7 @@ fun test() {
     println("out")
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
-        assertEquals(3, errors[0].line)
+        wrappingRuleAssertThat(test).hasLintViolation(3, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -28,8 +25,7 @@ fun test() {
     println("out")
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isEmpty() }
+        wrappingRuleAssertThat(test).hasNoLintViolations()
     }
 
     @Test
@@ -37,8 +33,7 @@ fun test() {
         val test = """
 fun test() = println("test")
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isEmpty() }
+        wrappingRuleAssertThat(test).hasNoLintViolations()
     }
 
     @Test
@@ -47,8 +42,7 @@ fun test() = println("test")
 fun test() =
     println("test")
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isEmpty() }
+        wrappingRuleAssertThat(test).hasNoLintViolations()
     }
 
     @Test
@@ -61,8 +55,7 @@ fun test() =
 
     "test"
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
+        wrappingRuleAssertThat(test).hasLintViolation(3, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -78,8 +71,8 @@ fun test() = { a, b ->
     "test"
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
+        wrappingRuleAssertThat(test)
+            .hasLintViolation(4, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -95,8 +88,7 @@ fun test() = {
     "test"
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
+        wrappingRuleAssertThat(test).hasLintViolation(5, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -106,8 +98,7 @@ fun test() {
     doSomething("abc") { "test" }
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isEmpty() }
+        wrappingRuleAssertThat(test).hasNoLintViolations()
     }
 
     @Test
@@ -121,8 +112,7 @@ fun test() {
     }
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
+        wrappingRuleAssertThat(test).hasLintViolation(4, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -136,8 +126,8 @@ fun test() {
     }
 }
 """
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(test)
-        assertTrue { errors.isNotEmpty() }
+        wrappingRuleAssertThat(test)
+            .hasLintViolation(3, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
     }
 
     @Test
@@ -158,9 +148,9 @@ fun test() {
 }
 """
 
-        val formatted = NoEmptyLineAfterFunctionDefinitionRule().format(test)
-        assertEquals(afterFormatting, formatted)
-        val errors = NoEmptyLineAfterFunctionDefinitionRule().lint(formatted)
-        assertTrue { errors.isEmpty() }
+        wrappingRuleAssertThat(test)
+            .withEditorConfigOverride()
+            .hasLintViolation(3, 1, NO_EMPTY_LINE_AFTER_FUN_DEFINITION_ERROR_MESSAGE)
+            .isFormattedAs(afterFormatting)
     }
 }
