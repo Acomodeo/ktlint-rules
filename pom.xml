@@ -8,7 +8,7 @@
     <version>master-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>1.2.51</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
     </properties>
 
     <dependencies>
@@ -19,21 +19,21 @@
 	    <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.pinterest.ktlint</groupId>
-            <artifactId>ktlint-core</artifactId>
-            <version>0.32.0</version>
-	    <scope>provided</scope>
+            <groupId>com.pinterest</groupId>
+            <artifactId>ktlint</artifactId>
+            <version>0.49.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.pinterest.ktlint</groupId>
             <artifactId>ktlint-test</artifactId>
-            <version>0.32.0</version>
+            <version>0.49.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -1,6 +1,7 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.core.Rule
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.jetbrains.kotlin.lexer.KtSingleValueToken
@@ -8,8 +9,12 @@ import org.jetbrains.kotlin.lexer.KtSingleValueToken
 /**
  * @author Mischa Holz
  */
-class NoNullAssertionsRule : Rule("no-null-assertion") {
-    override fun visit(
+class NoNullAssertionsRule : Rule(
+    ruleId = RuleId("mhlz:no-null-assertion"),
+    about = About(),
+) {
+
+    override fun beforeVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
         emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit

@@ -1,6 +1,7 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.core.Rule
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.KtNodeType
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
@@ -13,8 +14,12 @@ import org.jetbrains.kotlin.psi.KtLambdaExpression
 import org.jetbrains.kotlin.psi.psiUtil.children
 import org.jetbrains.kotlin.psi.stubs.elements.KtFunctionElementType
 
-class NoEmptyLineAfterFunctionDefinitionRule : Rule("no-empty-line-after-function-definition") {
-    override fun visit(
+class NoEmptyLineAfterFunctionDefinitionRule : Rule(
+    ruleId = RuleId("mhlz:no-empty-line-after-function-definition"),
+    about = About(),
+) {
+
+    override fun beforeVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
         emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit

@@ -1,6 +1,7 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.core.Rule
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.KtNodeTypes
 import org.jetbrains.kotlin.KtNodeTypes.CALL_EXPRESSION
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
@@ -23,8 +24,11 @@ val ignoredFunctions = listOf(
         "listOfNotNull"
 )
 
-class UseNamedParametersRule : Rule("use-named-parameters") {
-    override fun visit(
+class UseNamedParametersRule : Rule(
+    ruleId = RuleId("mhlz:use-named-parameters"),
+    about = About(),
+) {
+    override fun afterVisitChildNodes(
         node: ASTNode,
         autoCorrect: Boolean,
         emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
