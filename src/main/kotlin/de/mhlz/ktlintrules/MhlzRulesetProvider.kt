@@ -13,6 +13,7 @@ class MhlzRulesetProvider : RuleSetProviderV3(
     override fun getRuleProviders(): Set<RuleProvider> = setOf(
         RuleProvider { UseNamedParametersRule() },
         RuleProvider { NoNullAssertionsRule() },
-        RuleProvider { NoEmptyLineAfterFunctionDefinitionRule() },
+        RuleProvider { NoEmptyLineInLambdaBody() },
+        RuleProvider { NoEmptyLinesInSingleExpressionFunctionsRule() },
     )
 }

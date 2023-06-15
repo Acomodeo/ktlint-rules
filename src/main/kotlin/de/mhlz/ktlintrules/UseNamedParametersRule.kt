@@ -21,7 +21,7 @@ val ignoredFunctions = listOf(
     "setOf",
     "mutableSetOf",
     "arrayOf",
-    "listOfNotNull"
+    "listOfNotNull",
 )
 
 const val USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE =
@@ -60,7 +60,7 @@ class UseNamedParametersRule : Rule(
                     emit(
                         node.startOffset,
                         USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + node.text,
-                        false
+                        false,
                     )
                 }
             }

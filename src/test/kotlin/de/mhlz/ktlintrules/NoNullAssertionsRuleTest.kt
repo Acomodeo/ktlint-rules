@@ -12,15 +12,15 @@ class NoNullAssertionsRuleTest {
 
     @Test
     fun `should report null assertions`() {
-        val test = """
-val test = t!!
-val otherTest = t!!.bla
-val shouldNotTrigger = "t!!"
-"""
+        val code = """
+        val test = t!!
+        val otherTest = t!!.bla
+        val shouldNotTrigger = "t!!"
+        """.trimIndent()
 
-        wrappingRuleAssertThat(test).hasLintViolationsWithoutAutoCorrect(
-            LintViolation(2, 13, NO_NULL_ASSERTION_ERROR_MESSAGE),
-            LintViolation(3, 18, NO_NULL_ASSERTION_ERROR_MESSAGE),
+        wrappingRuleAssertThat(code).hasLintViolationsWithoutAutoCorrect(
+            LintViolation(1, 13, NO_NULL_ASSERTION_ERROR_MESSAGE),
+            LintViolation(2, 18, NO_NULL_ASSERTION_ERROR_MESSAGE),
         )
     }
 }

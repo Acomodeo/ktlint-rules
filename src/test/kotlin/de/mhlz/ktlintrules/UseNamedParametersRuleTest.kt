@@ -13,22 +13,22 @@ class UseNamedParametersRuleTest {
     @Test
     fun testNamedParametersRule() {
         val code = """
-fun test(a1: String, a2: String, a3: String, a4: String, a5: String) {}
-
-fun otherTest() {
-    test("", "", "", "", "")
-    System.out.println("")
-}
-
-fun anotherTest() {
-    test(a1 = "", a2 = "", a3 = "", a4 = "", a5 = "")
-}
-        """
+        fun test(a1: String, a2: String, a3: String, a4: String, a5: String) {}
+        
+        fun otherTest() {
+            test("", "", "", "", "")
+            System.out.println("")
+        }
+        
+        fun anotherTest() {
+            test(a1 = "", a2 = "", a3 = "", a4 = "", a5 = "")
+        }
+        """.trimIndent()
 
         wrappingRuleAssertThat(code).hasLintViolationWithoutAutoCorrect(
+            4,
             5,
-            5,
-            USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + "test(\"\", \"\", \"\", \"\", \"\")"
+            USE_NAMED_PARAMETERS_RULE_ERROR_MESSAGE + "test(\"\", \"\", \"\", \"\", \"\")",
         )
     }
 }
