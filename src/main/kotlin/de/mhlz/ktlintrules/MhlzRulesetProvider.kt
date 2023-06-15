@@ -1,16 +1,19 @@
 package de.mhlz.ktlintrules
 
-import com.pinterest.ktlint.core.RuleSet
-import com.pinterest.ktlint.core.RuleSetProvider
+import com.pinterest.ktlint.cli.ruleset.core.api.RuleSetProviderV3
+import com.pinterest.ktlint.rule.engine.core.api.RuleProvider
+import com.pinterest.ktlint.rule.engine.core.api.RuleSetId
 
 /**
  * @author Mischa Holz
  */
-class MhlzRulesetProvider : RuleSetProvider {
-    override fun get(): RuleSet = RuleSet(
-        "mhlz",
-        UseNamedParametersRule(),
-        NoNullAssertionsRule(),
-        NoEmptyLineAfterFunctionDefinitionRule()
+class MhlzRulesetProvider : RuleSetProviderV3(
+    RuleSetId("mhlz"),
+) {
+    override fun getRuleProviders(): Set<RuleProvider> = setOf(
+        RuleProvider { UseNamedParametersRule() },
+        RuleProvider { NoNullAssertionsRule() },
+        RuleProvider { NoEmptyLineInLambdaBody() },
+        RuleProvider { NoEmptyLinesInSingleExpressionFunctionsRule() },
     )
 }
